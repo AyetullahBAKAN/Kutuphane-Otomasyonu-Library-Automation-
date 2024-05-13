@@ -174,6 +174,7 @@ class Program
         "Kendinizi başkalarıyla kıyaslamayın. Eğer öyle yaparsanız, kendinizi küçümsemiş olursunuz. - Bill Gates",
         "Geleceği tahmin etmenin en iyi yolu onu yaratmaktır. - Peter Drucker"
     };
+    
     static void Main(string[] args)
     {
 
@@ -182,40 +183,42 @@ class Program
         int id;
 
 
+
         do
         {
             MenuGoster();
-            Console.Write("Seciminizi giriniz: ");
-            secim = Convert.ToInt32(Console.ReadLine());
+            secim = isInt();
+           
+
             switch (secim)
             {
                 case 1:
                     Console.Write("Personel ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     Console.Write("Personel ismi giriniz: ");
                     isim = Console.ReadLine();
                     PersonelEkle(id, isim);
                     break;
                 case 2:
                     Console.Write("Silinecek personel ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     PersonelCikar(id);
                     break;
                 case 3:
                     Console.Write("Üye ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     Console.Write("Üye ismi giriniz: ");
                     isim = Console.ReadLine();
                     UyeEkle(id, isim);
                     break;
                 case 4:
                     Console.Write("Silinecek üye ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     UyeCikar(id);
                     break;
                 case 5:
                     Console.Write("Kitap ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     Console.Write("Kitap başlığı giriniz: ");
                     isim = Console.ReadLine();
                     Console.WriteLine("Kitap türünü giriniz (Roman, Hikaye, Masal, Korku, Bilimsel, Dram): ");
@@ -225,7 +228,7 @@ class Program
 
                 case 6:
                     Console.Write("Silinecek kitap ID giriniz: ");
-                    id = Convert.ToInt32(Console.ReadLine());
+                    id = isInt();
                     KitapCikar(id);
                     break;
                 case 7:
@@ -290,19 +293,12 @@ class Program
                     break;
                 case 17:
                     Console.Write("son kaç işlem : ");
-                    int sayi = Convert.ToInt32(Console.ReadLine());
+                    int sayi = isInt();
 
                     IslemGecmisiGoster(sayi);
                     break;
                 case 18:
-                    Console.WriteLine("███████████████████████████████");
-                    Console.WriteLine("█   Projeyi Hazırlayanlar     █");
-                    Console.WriteLine("███████████████████████████████");
-                    Console.WriteLine("█ -> Dına Valedıka            █");
-                    Console.WriteLine("█ -> Ayetullah BAKAN          █");
-                    Console.WriteLine("█ -> Mahsa Omidvar Gharehbaba █");
-                    Console.WriteLine("█ -> Zeynep Alperen           █");
-                    Console.WriteLine("███████████████████████████████");
+                    Hazirlayanlar();
                     break;
                 case 0:
                     Console.WriteLine("Çıkış yapılıyor...");
@@ -357,7 +353,32 @@ class Program
         Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
         Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════╝");
     }
+    static int isInt()// Bu fonksiyon ile input kontrolü yapıyoruz int-string hataları için.
+    {
+        int input;
+        int sec;
 
+        while (true)
+        {
+            Console.Write("Lütfen bir sayı girin: ");
+            string userInput = Console.ReadLine();
+
+            // Kullanıcının girdisi integer mı diye kontrol edelim
+            if (int.TryParse(userInput, out input))
+            {
+                // Eğer integer ise, giriş doğrudur
+                sec = Convert.ToInt32(userInput);
+                break; // Sonsuz döngüden çık
+            }
+            else
+            {
+                // Eğer integer değilse, yanlış giriş bildirimi yapalım
+                Console.WriteLine("HATALI BIR DEGER GIRDINIZ LUTFEN BIR TAM SAYI DEGERI GIRINIZ");
+            }
+        }
+        return sec;
+
+    }
     // Personel fonksiyonlarının implementasyonları
     static void PersonelEkle(int id, string isim)
     {
@@ -374,7 +395,19 @@ class Program
         IslemGecmisiEkle("Personel Eklendi");
     }
 
+    static void Hazirlayanlar()
+    {
+        Console.WriteLine("███████████████████████████████");
+        Console.WriteLine("█   Projeyi Hazırlayanlar     █");
+        Console.WriteLine("███████████████████████████████");
+        Console.WriteLine("█ -> Dına Veladıka            █");
+        Console.WriteLine("█ -> Ayetullah BAKAN          █");
+        Console.WriteLine("█ -> Mahsa Omidvar Gharehbaba █");
+        Console.WriteLine("█ -> Zeynep Alperen           █");
+        Console.WriteLine("███████████████████████████████");
+        IslemGecmisiEkle("Hazirlayanlar Goruntulendi");
 
+    }
     static void PersonelCikar(int id)
     {
         // Personel çıkaran fonksiyon
@@ -447,12 +480,20 @@ class Program
 
     static void UyeleriListele()
     {
-        // Üyeleri listeleme fonksiyonu
+        
         Uye temp = uyeBasi;
-        while (temp != null)
+
+        if (uyeBasi == null)
         {
-            Console.WriteLine($"ID: {temp.Id}, Isim: {temp.Isim}");
-            temp = temp.Sonraki;
+            Console.WriteLine("Listelenecek Uye bulunamadı.");
+        }
+        else
+        {
+            while (temp != null)
+            {
+                Console.WriteLine($"ID: {temp.Id}, Isim: {temp.Isim}");
+                temp = temp.Sonraki;
+            }
         }
         IslemGecmisiEkle("Uye Listelendi");
     }
@@ -596,21 +637,29 @@ class Program
 
     static void KitapCikar(int id)
     {
-        // Kitap çıkaran fonksiyon
-        Kitap temp = kitapBasi, onceki = null;
-        while (temp != null && temp.Id != id)
+
+        if (kitapBasi == null)
         {
-            onceki = temp;
-            temp = temp.Sonraki;
-        }
-        if (temp == null) return;
-        if (onceki == null)
-        {
-            kitapBasi = temp.Sonraki;
+            Console.WriteLine("Cikarilacak kitap bulunamadı.");
         }
         else
         {
-            onceki.Sonraki = temp.Sonraki;
+            // Kitap çıkaran fonksiyon
+            Kitap temp = kitapBasi, onceki = null;
+            while (temp != null && temp.Id != id)
+            {
+                onceki = temp;
+                temp = temp.Sonraki;
+            }
+            if (temp == null) return;
+            if (onceki == null)
+            {
+                kitapBasi = temp.Sonraki;
+            }
+            else
+            {
+                onceki.Sonraki = temp.Sonraki;
+            }
         }
         IslemGecmisiEkle("Kitap Cikarildi");
     }
@@ -708,13 +757,15 @@ class Program
             Console.WriteLine("║               Etkinlik Kuyrugu Menusu            ║");
             Console.WriteLine("╚══════════════════════════════════════════════════╝");
             Console.WriteLine("");
-            Console.WriteLine("1. Etkinlik Katılımcılarını Görüntüle");
-            Console.WriteLine("2. Etkinliğe Katılım");
-            Console.WriteLine("3. Kuyruğu Sıfırla");
-            Console.WriteLine("0. Ana Menüye Dön");
+            Console.WriteLine("█████████████████████████████████████████");
+            Console.WriteLine("█1. Etkinlik Katılımcılarını Görüntüle  █");
+            Console.WriteLine("█2. Etkinliğe Katılım                   █");
+            Console.WriteLine("█3. Kuyruğu Sıfırla                     █");
+            Console.WriteLine("█0. Ana Menüye Dön                      █");
+            Console.WriteLine("█████████████████████████████████████████");
             Console.Write("Seciminizi giriniz: ");
 
-            secim = Convert.ToInt32(Console.ReadLine());
+            secim = isInt();
             switch (secim)
             {
                 case 1:
@@ -741,11 +792,19 @@ class Program
 
     static void EtkinlikKatilimcilariniGoruntule()
     {
-        EtkinlikKatilimci temp = etkinlikKuyruguBasi;
-        while (temp != null)
+
+        if (etkinlikKuyruguBasi == null)
         {
-            Console.WriteLine($"ID: {temp.Id}, Isim: {temp.Isim}");
-            temp = temp.Sonraki;
+            Console.WriteLine("Listelenecek Katilimci Bulunamadi.");
+        }
+        else
+        {
+            EtkinlikKatilimci temp = etkinlikKuyruguBasi;
+            while (temp != null)
+            {
+                Console.WriteLine($"ID: {temp.Id}, Isim: {temp.Isim}");
+                temp = temp.Sonraki;
+            }
         }
     }
     static void KuyruguSifirla()
