@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 public class GraphNode
 {
     public Kitap Kitap;
@@ -23,8 +24,9 @@ public class Node
         Data = data;
         Next = null;
     }
-}
 
+    public object Timestamp { get; internal set; }
+}
 // Stack yapısı
 public class MyStack
 {
@@ -39,17 +41,20 @@ public class MyStack
     {
         Node newNode = new Node(data);
         newNode.Next = top;
+        newNode.Timestamp = DateTime.Now; // Adding timestamp
         top = newNode;
     }
 
-    public string Pop()
+    public string Pop(out DateTime timestamp)
     {
         if (IsEmpty())
         {
             Console.WriteLine("Stack boş, Pop işlemi gerçekleştirilemedi.");
+            timestamp = DateTime.MinValue;
             return null;
         }
         string poppedData = top.Data;
+        timestamp = (DateTime)top.Timestamp; // Returning timestamp
         top = top.Next;
         return poppedData;
     }
@@ -68,17 +73,12 @@ public class MyStack
 
         while (current != null && displayCount < count)
         {
-            Console.WriteLine(current.Data);
+            Console.WriteLine($"[{current.Timestamp}] {current.Data}");
             current = current.Next;
             displayCount++;
         }
     }
 }
-
-
-
-// Kitap yapısı
-
 
 // Personel yapısı
 public class Personel
@@ -87,7 +87,6 @@ public class Personel
     public string Isim;
     public Personel Sonraki;
 }
-
 // Üye yapısı
 public class Uye
 {
@@ -95,15 +94,55 @@ public class Uye
     public string Isim;
     public Uye Sonraki;
     public Kitap AldigiKitaplarBasi; // Aldığı kitapların başını gösteren bağlı liste başlangıcı
+
+    // Üyenin aldığı belirli bir kitabı iade etmesini sağlayan metot
+    public int AldigiKitapSayisi()
+    {
+        int sayac = 0;
+        Kitap temp = AldigiKitaplarBasi;
+        while (temp != null)
+        {
+            sayac++;
+            temp = temp.Sonraki;
+        }
+        return sayac;
+    }
+    public void KitapIadeEt(int kitapId)
+    {
+        Kitap temp = AldigiKitaplarBasi;
+        Kitap onceki = null;
+
+        while (temp != null && temp.Id != kitapId)
+        {
+            onceki = temp;
+            temp = temp.Sonraki;
+        }
+
+        if (temp == null)
+        {
+            Console.WriteLine("Bu kitap üye tarafından alınmamış.");
+            return;
+        }
+
+        if (onceki == null)
+        {
+            AldigiKitaplarBasi = temp.Sonraki;
+        }
+        else
+        {
+            onceki.Sonraki = temp.Sonraki;
+        }
+    }
 }
 
-// Kitap yapısı
+
 // Kitap yapısı
 public class Kitap
 {
     public int Id;
+    public int Adet;
     public string Baslik;
-    public KitapTuru Turu; // Kitap türü eklendi
+    public KitapTuru Turu; // Kitap türü (enum) eklendi
     public Kitap Sonraki;
 }
 public enum KitapTuru
@@ -116,7 +155,7 @@ public enum KitapTuru
     Dram
 }
 
-// BST için ekstra sınıf
+// BST için sınıf
 public class BSTNode
 {
     public Kitap Kitap;
@@ -220,7 +259,7 @@ public class Hashtable
                 Node current = buckets[i];
                 while (current != null)
                 {
-                    Console.WriteLine($"Anahtar: {current.Key}, Değer: {current.Value}");
+                    Console.WriteLine($"Personel id: {current.Key}, Mesai Saatleri: {current.Value}");
                     current = current.Next;
                 }
             }
@@ -241,28 +280,13 @@ public class Hashtable
             Next = null;
         }
     }
+
 }
-
-
 class Program
 {
     static Hashtable mesaiHashtable = new Hashtable();
-
     public static MyStack islemGecmisi = new MyStack();
-
-    static void IslemGecmisiEkle(string islem)
-    {
-        islemGecmisi.Push(islem);
-    }
-
-    static void IslemGecmisiGoster(int sayi)
-    {
-        islemGecmisi.Display(sayi);
-    }
-
     static Dictionary<KitapTuru, GraphNode> grafDict = new Dictionary<KitapTuru, GraphNode>();
-
-
     // bağlı liste başlangıçları
     static Personel personelBasi = null;
     static Uye uyeBasi = null;
@@ -273,38 +297,43 @@ class Program
         public int Id;
         public string Isim;
         public EtkinlikKatilimci Sonraki;
-    } 
+    }
     /// </summary>
     static EtkinlikKatilimci etkinlikKuyruguBasi = null;
     // Özlü sözlerin listesi
     static List<string> ozluSozler = new List<string>
-    {
-        "Yapabileceğin en iyi şey, doğru olanı yapmaktır. İkinci en iyi şey yanlış olanı yapmaktır. En kötüsü ise hiçbir şey yapmamaktır. - Theodore Roosevelt",
-        "Hayatımızı değiştirecek olan şeyler, biz farkında olmadan hayatımıza girer. - Haruki Murakami",
-        "Bir insanın kaderi, o insanın karakterindedir. - Herakleitos",
-        "Bilgi güçtür. - Francis Bacon",
-        "Zihin her şeydir. Ne düşünürseniz o olursunuz. - Buddha",
-        "Başarı asla tesadüf değildir. - Pele",
-        "Hayat, yaşamaya değer olduğunu kanıtlamak için bir fırsattır. - Sigmund Freud",
-        "Bir kitap, bir bahçeye, bir kitaplık ise bir cennete eşdeğerdir. - Cicero",
-        "Kendinizi başkalarıyla kıyaslamayın. Eğer öyle yaparsanız, kendinizi küçümsemiş olursunuz. - Bill Gates",
-        "Geleceği tahmin etmenin en iyi yolu onu yaratmaktır. - Peter Drucker"
-    };
-    
+{
+    "Yapabileceğin en iyi şey, doğru olanı yapmaktır. İkinci en iyi şey yanlış olanı yapmaktır. En kötüsü ise hiçbir şey yapmamaktır. - Theodore Roosevelt",
+    "Hayatımızı değiştirecek olan şeyler, biz farkında olmadan hayatımıza girer. - Haruki Murakami",
+    "Bir insanın kaderi, o insanın karakterindedir. - Herakleitos",
+    "Bilgi güçtür. - Francis Bacon",
+    "Zihin her şeydir. Ne düşünürseniz o olursunuz. - Buddha",
+    "Başarı asla tesadüf değildir. - Pele",
+    "Hayat, yaşamaya değer olduğunu kanıtlamak için bir fırsattır. - Sigmund Freud",
+    "Bir kitap, bir bahçeye, bir kitaplık ise bir cennete eşdeğerdir. - Cicero",
+    "Kendinizi başkalarıyla kıyaslamayın. Eğer öyle yaparsanız, kendinizi küçümsemiş olursunuz. - Bill Gates",
+    "Geleceği tahmin etmenin en iyi yolu onu yaratmaktır. - Peter Drucker",
+    "Kitaplar, zamanın ruhunu konserveler gibi saklarlar. - Stephen King",
+    "Bir kitap, insan ruhunu başka bir ruhla buluşturan sihirli bir anahtardır. - Helen Keller",
+    "Bir kitap, bir insanın hayatını değiştirebilecek en sessiz ve en sürekli arkadaştır. - Charles W. Eliot",
+    "Bir kitabın derinliklerinde kaybolmak, gerçek dünyadan kaçışın en güzel yoludur. - J.K. Rowling",
+    "Kitaplar, düşüncelerin kanatlarıdır. - Henry Ward Beecher",
+    "Bir kitap okumak, başka birinin hayal dünyasında gezintiye çıkmaktır. - Carl Sagan",
+    "Bir kitap, insanın en iyi dostudur; en kötü zamanında bile seni yargılamaz ve sana sırtını dönmez. - Marcus Tullius Cicero",
+    "Bir kitap, binlerce yaşamı bir araya getiren bir denizdir. - Jorge Luis Borges",
+    "Bir kitap, karanlıkta bir ışık, yalnızlıkta bir dost, umutsuzlukta bir umuttur. - Victor Hugo",
+    "Kitaplar, insanın bilgiye açılan pencereleridir. - Malala Yousafzai"
+};
     static void Main(string[] args)
     {
-
         int secim;
         string isim;
         int id;
-
-
-
         do
         {
             MenuGoster();
             secim = isInt();
-           
+
 
             switch (secim)
             {
@@ -342,13 +371,17 @@ class Program
                     isim = Console.ReadLine();
                     Console.WriteLine("Kitap türünü giriniz (Roman, Hikaye, Masal, Korku, Bilimsel, Dram): ");
                     KitapTuru turu = (KitapTuru)Enum.Parse(typeof(KitapTuru), Console.ReadLine(), true);
-                    KitapEkle(id, isim, turu);
+                    Console.Write("Kaç adet eklemek istiyorsunuz? ");
+                    int adet = isInt();
+                    KitapEkle(id, isim, turu, adet);
                     break;
 
                 case 7:
-                    Console.Write("Silinecek kitap ID giriniz: ");
-                    id = isInt();
-                    KitapCikar(id);
+                    Console.Write("Çıkarılacak kitap başlığını giriniz: ");
+                    string cikarilacakKitapBasligi = Console.ReadLine();
+                    Console.Write("Çıkarılacak adeti giriniz: ");
+                    int cikarilacakAdet = isInt();
+                    KitapCikar(cikarilacakKitapBasligi, cikarilacakAdet);
                     break;
                 case 8:
                     PersonelleriListele();
@@ -364,7 +397,9 @@ class Program
                     isim = Console.ReadLine();
                     Console.Write("Kitap başlığını giriniz: ");
                     string baslik = Console.ReadLine();
-                    KitapAlimi(isim, baslik);
+                    Console.Write("istenen adeti giriniz: ");
+                    int eklenecekadet = isInt();
+                    KitapAlimi(isim, baslik, eklenecekadet);
                     break;
                 case 12:
                     Console.Write("Kontrol edilecek üye ismini giriniz: ");
@@ -390,7 +425,7 @@ class Program
                     Kitap kitap = KitapBul(baslik);
                     if (kitap != null)
                     {
-                        Console.WriteLine($"Kitap bulundu: ID: {kitap.Id}, Başlık: {kitap.Baslik}");
+                        Console.WriteLine($"Kitap bulundu: ID: {kitap.Id}, Başlık: {kitap.Baslik}, Adet: {kitap.Adet}");
                     }
                     else
                     {
@@ -417,9 +452,13 @@ class Program
                     IslemGecmisiGoster(sayi);
                     break;
                 case 19:
+                    Console.Write("İade edilecek kitabın başlığını giriniz: ");
+                    string iadeEdilecekKitapBaslik = Console.ReadLine();
+                    KitapIade(iadeEdilecekKitapBaslik);
+                    break;
+                case 20:
                     Hazirlayanlar();
                     break;
-                    
                 case 0:
                     Console.WriteLine("Çıkış yapılıyor...");
                     break;
@@ -429,7 +468,6 @@ class Program
             }
         } while (secim != 0);
     }
-
     static void MenuGoster()
     {
 
@@ -443,11 +481,11 @@ class Program
         int index = rnd.Next(ozluSozler.Count);
         Console.WriteLine($"{ozluSozler[index]}");
         Console.WriteLine("\n");
-        Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████");   
-        Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░░░█"); 
-        Console.WriteLine("█░░░░░░█████   ISLEM MENUSU   ███████░░░░░░░░░░░░░░░░░░░░███░██░░░░░░░░░░░░░░░░░░░█");        
+        Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████");
+        Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░░░░█████   ISLEM MENUSU   ███████░░░░░░░░░░░░░░░░░░░░███░██░░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░██░░░█░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 1.  Personel Ekle          █░░░░░░░░░░░░░░░░░░░░██░░░██░░░░░░░░░░░░░░░░░░█");  
+        Console.WriteLine("█░░░░░░█ 1.  Personel Ekle          █░░░░░░░░░░░░░░░░░░░░██░░░██░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 2.  Personel Çıkar         █░░░░░░░░░░░░░░░░░░░░░██░░░███░░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 3   Personel MSY Sistemi   █░░░░░░░░░░░░░░░░░░░░░░██░░░░██░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 4.  Üye Ekle               █░░░░░░░░░░░░░░░░░░░░░░██░░░░░███░░░░░░░░░░░░░█");
@@ -465,7 +503,8 @@ class Program
         Console.WriteLine("█░░░░░░█ 16. Etkinlik Kuyruğu       █░░░░░░░░░░░░░░░░░░░░██░░░░░████░███░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 17. Ture Gore Arama        █░░░░░░░░░░░░░░░░░░░░█████████████░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 18. Islem Gecmisi          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 19. Hazırlayanlar          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░░░░█ 19. Kitap iade islemi      █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░░░░█ 20. Hazırlayanlar          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░█ 0.  Çıkış                  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████");
@@ -499,7 +538,7 @@ class Program
         return sec;
 
     }
-    // Personel fonksiyonlarının implementasyonları
+    // PERSONEL ISLEMLERI------------
     static void PersonelEkle(int id, string isim)
     {
         // Aynı ID'ye sahip bir personel var mı kontrol et
@@ -513,20 +552,6 @@ class Program
         Personel yeniPersonel = new Personel { Id = id, Isim = isim, Sonraki = personelBasi };
         personelBasi = yeniPersonel;
         IslemGecmisiEkle("Personel Eklendi");
-    }
-
-    static void Hazirlayanlar()
-    {
-        Console.WriteLine("███████████████████████████████");
-        Console.WriteLine("█   Projeyi Hazırlayanlar     █");
-        Console.WriteLine("███████████████████████████████");
-        Console.WriteLine("█ -> Dına Veladıka            █");
-        Console.WriteLine("█ -> Ayetullah BAKAN          █");
-        Console.WriteLine("█ -> Mahsa Omidvar Gharehbaba █");
-        Console.WriteLine("█ -> Zeynep Alperen           █");
-        Console.WriteLine("███████████████████████████████");
-        IslemGecmisiEkle("Hazirlayanlar Goruntulendi");
-
     }
     static void PersonelCikar(int id)
     {
@@ -548,7 +573,6 @@ class Program
         }
         IslemGecmisiEkle("Personel Cikarildi");
     }
-
     static void PersonelleriListele()
     {
         // Personelleri listeleme fonksiyonu
@@ -560,8 +584,102 @@ class Program
         }
         IslemGecmisiEkle("Personel Listelendi");
     }
+    //HASHTABLE YAPILI PERSONEL MSY SISTEMI
+    static void MesaiSaatleriMenu()
+    {
+        int secim;
+        do
+        {
+            Console.WriteLine("█████████████████████████████████████████");
+            Console.WriteLine("█         Mesai Saatleri Yönetimi       █");
+            Console.WriteLine("█████████████████████████████████████████");
+            Console.WriteLine("█1. Personelin Mesai Saatlerini Ekle    █");
+            Console.WriteLine("█2. Personelin Mesai Saatlerini Çıkar   █");
+            Console.WriteLine("█3. Personelin Mesai Saatlerini Listele █");
+            Console.WriteLine("█0. Ana Menüye Dön                      █");
+            Console.WriteLine("█████████████████████████████████████████");
+            Console.Write("Seçiminiz: ");
+            secim = isInt();
+            switch (secim)
+            {
+                case 1:
+                    MesaiSaatleriEkle();
+                    break;
+                case 2:
+                    MesaiSaatleriCikar();
+                    break;
+                case 3:
+                    MesaiSaatleriListele();
+                    break;
+                case 0:
+                    Console.WriteLine("Ana Menüye Dönülüyor...");
+                    break;
+                default:
+                    Console.WriteLine("Geçersiz seçim.");
+                    break;
+            }
+        } while (secim != 0);
+    }
+    static void MesaiSaatleriEkle()
+    {
+        if (personelBasi == null)
+        {
+            Console.WriteLine("Önce bir personel eklemelisiniz.");
+            return;
+        }
+        Console.Write("Personel ID giriniz: ");
+        int id = isInt();
+        if (!PersonelVarMi(id))
+        {
+            Console.WriteLine("Girilen ID'ye sahip bir personel zaten var.");
+            return;
+        }
+        Console.WriteLine("Girilen ID'ye sahip bir personel zaten var.");
+        Console.Write("Mesai saatlerini giriniz: ");
+        string saatler = Console.ReadLine();
+        mesaiHashtable.Add(id, saatler);
+        IslemGecmisiEkle($"Personel ID: {id}'ye mesai saatleri eklendi.");
+    }
+    static void MesaiSaatleriCikar()
+    {
+        if (personelBasi == null)
+        {
+            Console.WriteLine("Önce bir personel eklemelisiniz.");
+            return;
+        }
 
-    // Üye fonksiyonlarının implementasyonları
+        Console.Write("Personel ID giriniz: ");
+        int id = isInt();
+
+        if (!PersonelVarMi(id))
+        {
+            Console.WriteLine("Girilen ID'ye sahip bir personel bulunamadı.");
+            return;
+        }
+
+        mesaiHashtable.Remove(id);
+        IslemGecmisiEkle($"Personel ID: {id}'nin mesai saatleri çıkarıldı.");
+    }
+    static void MesaiSaatleriListele()
+    {
+        Console.WriteLine("Tüm personel mesai saatleri:");
+        mesaiHashtable.Display();
+        IslemGecmisiEkle("Mesai saatleri listelendi.");
+    }
+    static bool PersonelVarMi(int id) // aynı id degerine sahip personel girisinin engellenmesi icin
+    {
+        Personel temp = personelBasi;
+        while (temp != null)
+        {
+            if (temp.Id == id)
+            {
+                return true;
+            }
+            temp = temp.Sonraki;
+        }
+        return false;
+    }
+    // UYE ISLEMLERI
     static void UyeEkle(int id, string isim)
     {
         // Aynı ID'ye sahip bir üye var mı kontrol et
@@ -576,7 +694,6 @@ class Program
         uyeBasi = yeniUye;
         IslemGecmisiEkle("Uye Eklendi");
     }
-
     static void UyeCikar(int id)
     {
         // Üye çıkaran fonksiyon
@@ -597,10 +714,9 @@ class Program
         }
         IslemGecmisiEkle("Uye Cikarildi");
     }
-
     static void UyeleriListele()
     {
-        
+
         Uye temp = uyeBasi;
 
         if (uyeBasi == null)
@@ -617,9 +733,139 @@ class Program
         }
         IslemGecmisiEkle("Uye Listelendi");
     }
+    static void UyeKontrolu(string uyeIsim)
+    {
+        // Üyenin aldığı kitapları listeleme fonksiyonu
+        Uye uye = UyeBul(uyeIsim);
+        if (uye != null)
+        {
+            Console.WriteLine($"{uye.Isim} adlı üyenin aldığı kitaplar:");
+            Kitap temp = uye.AldigiKitaplarBasi;
+            string oncekiKitapBaslik = null; // Bir önceki kitabın başlığını saklamak için kullanılacak değişken
+            while (temp != null)
+            {
+                // Eğer şu anki kitap bir önceki kitapla aynı değilse, yazdır
+                if (temp.Baslik != oncekiKitapBaslik)
+                {
+                    int aldigiAdet = AldigiKitapAdetiniBul(uye.AldigiKitaplarBasi,temp.Id); // Kitabın adetini bul
+                    Console.WriteLine($"- {temp.Baslik} ({aldigiAdet} adet)");
+                    oncekiKitapBaslik = temp.Baslik; // Bir sonraki kitap için bir önceki kitabı güncelle
+                }
+                temp = temp.Sonraki;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Üye bulunamadı.");
+        }
+        IslemGecmisiEkle("Uye Kontrolu Yapildi");
+    }
+    static int AldigiKitapAdetiniBul(Kitap aldigiKitaplarBasi, int kitapId)
+    {
+        int adet = 0;
+        Kitap temp = aldigiKitaplarBasi;
+        while (temp != null)
+        {
+            if (temp.Id == kitapId)
+            {
+                adet++;
+            }
+            temp = temp.Sonraki;
+        }
+        return adet;
+    }
+    static Uye UyeBul(string isim)
+    {
+        // İsme göre üye bulma fonksiyonu
+        Uye temp = uyeBasi;
+        while (temp != null && temp.Isim != isim)
+        {
+            temp = temp.Sonraki;
+        }
+        return temp;
+        IslemGecmisiEkle("Uye Bul Calistirldi ");
+    }
+    static bool UyeVarMi(int id) // aynı id degerine sahip UYE girisinin engellenmesi icin
+    {
+        Uye temp = uyeBasi;
+        while (temp != null)
+        {
+            if (temp.Id == id)
+            {
+                return true;
+            }
+            temp = temp.Sonraki;
+        }
+        return false;
+    }
+    // KITAP ISLEMLERI
+    static void Sil(Kitap silinecekKitap)
+    {
+        // Eğer silinecek kitap listenin başındaysa
+        if (kitapBasi == silinecekKitap)
+        {
+            kitapBasi = silinecekKitap.Sonraki;
+        }
+        else
+        {
+            // Kitabı bul
+            Kitap temp = kitapBasi;
+            while (temp != null && temp.Sonraki != silinecekKitap)
+            {
+                temp = temp.Sonraki;
+            }
 
-    // Kitap fonksiyonlarının implementasyonları
-    static void KitapEkle(int id, string baslik, KitapTuru turu)
+            // Kitabı listeden çıkar
+            if (temp != null)
+            {
+                temp.Sonraki = silinecekKitap.Sonraki;
+            }
+        }
+    }
+    static void KitapCikar(string kitapBaslik, int adet)
+    {
+        if (kitapBasi == null)
+        {
+            Console.WriteLine("Çıkarılacak kitap bulunamadı.");
+            return;
+        }
+
+        // Kitabı bul
+        Kitap temp = kitapBasi;
+        while (temp != null && temp.Baslik != kitapBaslik)
+        {
+            temp = temp.Sonraki;
+        }
+
+        if (temp == null)
+        {
+            Console.WriteLine("Kitap bulunamadı.");
+            return;
+        }
+
+        // Adet kontrolü ve işlem
+        if (temp.Adet == adet)
+        {
+            // Eğer kitap sayısı, çıkarılacak adet kadar ise, kitabı listeden sil
+            Sil(temp);
+            Console.WriteLine($"{adet} adet {kitapBaslik} kitabı başarıyla çıkarıldı.");
+        }
+        else if (temp.Adet > adet)
+        {
+            // Eğer kitap sayısı çıkarılacak adetten fazla ise, sadece adet sayısını düşür
+            temp.Adet -= adet;
+            Console.WriteLine($"{adet} adet {kitapBaslik} kitabı başarıyla çıkarıldı.");
+        }
+        else
+        {
+            // Eğer kitap sayısı çıkarılacak adetten az ise, hata mesajı ver
+            Console.WriteLine($"Hata: {kitapBaslik} kitabının stokta yeterli adeti bulunmamaktadır.");
+        }
+
+        IslemGecmisiEkle($"Kitap çıkarıldı: Kitap: {kitapBaslik}, Adet: {adet}");
+    }
+    // Kitap ekleme fonksiyonu
+    static void KitapEkle(int id, string baslik, KitapTuru turu, int adet)
     {
         // Aynı ID'ye sahip bir kitap var mı kontrol et
         if (KitapVarMi(id))
@@ -628,7 +874,7 @@ class Program
             return;
         }
 
-        Kitap yeniKitap = new Kitap { Id = id, Baslik = baslik, Turu = turu, Sonraki = kitapBasi };
+        Kitap yeniKitap = new Kitap { Id = id, Baslik = baslik, Turu = turu, Adet = adet, Sonraki = kitapBasi };
         kitapBasi = yeniKitap;
 
         // Grafı güncelle
@@ -649,7 +895,114 @@ class Program
         kitapBST = KitapBSTEkle(kitapBST, yeniKitap);
         IslemGecmisiEkle("Kitap Eklendi");
     }
+    static void KitapCikar(int id)
+    {
 
+        if (kitapBasi == null)
+        {
+            Console.WriteLine("Cikarilacak kitap bulunamadı.");
+        }
+        else
+        {
+            // Kitap çıkaran fonksiyon
+            Kitap temp = kitapBasi, onceki = null;
+            while (temp != null && temp.Id != id)
+            {
+                onceki = temp;
+                temp = temp.Sonraki;
+            }
+            if (temp == null) return;
+            if (onceki == null)
+            {
+                kitapBasi = temp.Sonraki;
+            }
+            else
+            {
+                onceki.Sonraki = temp.Sonraki;
+            }
+        }
+        IslemGecmisiEkle("Kitap Cikarildi");
+    }
+    // Kitap iade işlemi
+    static void KitapIade(string kitapBaslik)
+    {
+        Console.Write("Üye ismini giriniz: ");
+        string uyeIsim = Console.ReadLine();
+
+        Uye uye = UyeBul(uyeIsim);
+        if (uye != null)
+        {
+            Kitap kitap = KitapBul(kitapBaslik);
+            if (kitap != null)
+            {
+                // Üyeden iade miktarını al
+                Console.Write($"Kaç tane \"{kitapBaslik}\" kitabı iade edeceksiniz?: ");
+                int iadeMiktari = Convert.ToInt32(Console.ReadLine());
+
+                // Üyeden iade edilecek kitabın sayısını kontrol et
+                if (iadeMiktari <= uye.AldigiKitapSayisi())
+                {
+                    // Üyeden kitapları iade et
+                    for (int i = 0; i < iadeMiktari; i++)
+                    {
+                        uye.KitapIadeEt(kitap.Id);
+                    }
+
+                    // Kütüphaneye kitapları ekle
+                    kitap.Adet += iadeMiktari;
+
+                    Console.WriteLine($"\"{kitapBaslik}\" kitabından {iadeMiktari} adet başarıyla iade edildi.");
+                }
+                else
+                {
+                    Console.WriteLine($"Üye \"{kitapBaslik}\" kitabından {uye.AldigiKitapSayisi()} adetten az iade edemez.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Kitap bulunamadı.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Üye bulunamadı.");
+        }
+
+        IslemGecmisiEkle($"Kitap iade edildi: Kitap: {kitapBaslik}");
+    }
+
+    // Kitapları listeleme işlemi
+    static void KitaplariListele()
+    {
+        if (kitapBasi == null)
+        {
+            Console.WriteLine("Listelenecek kitap bulunamadı.");
+        }
+        else
+        {
+            Kitap temp = kitapBasi;
+            while (temp != null)
+            {
+                Console.WriteLine($"ID: {temp.Id}, Başlık: {temp.Baslik}, Adet: {temp.Adet}");
+                temp = temp.Sonraki;
+            }
+        }
+        IslemGecmisiEkle("Kitaplar listelendi");
+    }
+
+    static bool KitapVarMi(int id) // aynı id degerine sahip KITAP girisinin engellenmesi icin
+    {
+        Kitap temp = kitapBasi;
+        while (temp != null)
+        {
+            if (temp.Id == id)
+            {
+                return true;
+            }
+            temp = temp.Sonraki;
+        }
+        return false;
+    }
     static void TureGoreKitaplariListele(KitapTuru tur)
     {
         if (kitapBasi == null)
@@ -670,9 +1023,6 @@ class Program
         }
         IslemGecmisiEkle("Ture Gore Kitap Listelendi");
     }
-
-
-
     // BST'ye kitap ekleyen fonksiyon        
     static BSTNode KitapBSTEkle(BSTNode node, Kitap kitap)
     {
@@ -692,7 +1042,6 @@ class Program
 
         return node;
     }
-
     static void KitapTavsiye(string uyeIsim) // binary search tree kullandık
     {
         Uye uye = UyeBul(uyeIsim);
@@ -722,7 +1071,6 @@ class Program
         }
         IslemGecmisiEkle("Kitap Tavsiyesi Alındı");
     }
-
     // Tavsiye edilen kitapları bulan fonksiyon (limit parametresi kaldırıldı)
     static void TavsiyeEdilenKitaplariBul(BSTNode node, Kitap aldigiKitaplarBasi, List<Kitap> list)
     {
@@ -738,8 +1086,6 @@ class Program
         TavsiyeEdilenKitaplariBul(node.Sol, aldigiKitaplarBasi, list);
         TavsiyeEdilenKitaplariBul(node.Sag, aldigiKitaplarBasi, list);
     }
-
-
     // Üyenin aldığı kitaplar listesinde belirli bir kitabın olup olmadığını kontrol eden fonksiyon
     static bool AldigiKitaplardaVarMi(Kitap aldigiKitaplarBasi, int kitapId)
     {
@@ -754,65 +1100,29 @@ class Program
         }
         return false;
     }
-
-    static void KitapCikar(int id)
+    // Kitap alımı işlemi
+    static void KitapAlimi(string uyeIsim, string kitapBaslik, int adet)
     {
+        Uye uye = UyeBul(uyeIsim);
+        Kitap kitap = KitapBul(kitapBaslik);
 
-        if (kitapBasi == null)
+        if (uye != null && kitap != null)
         {
-            Console.WriteLine("Cikarilacak kitap bulunamadı.");
-        }
-        else
-        {
-            // Kitap çıkaran fonksiyon
-            Kitap temp = kitapBasi, onceki = null;
-            while (temp != null && temp.Id != id)
+            if (kitap.Adet >= adet)
             {
-                onceki = temp;
-                temp = temp.Sonraki;
-            }
-            if (temp == null) return;
-            if (onceki == null)
-            {
-                kitapBasi = temp.Sonraki;
+                for (int i = 0; i < adet; i++)
+                {
+                    Kitap yeniKitap = new Kitap { Id = kitap.Id, Baslik = kitap.Baslik, Sonraki = uye.AldigiKitaplarBasi };
+                    uye.AldigiKitaplarBasi = yeniKitap;
+                }
+
+                kitap.Adet -= adet; // Kitap adetini azalt
+                Console.WriteLine($"{adet} adet \"{kitapBaslik}\" kitabı \"{uyeIsim}\" üyesine başarıyla verildi.");
             }
             else
             {
-                onceki.Sonraki = temp.Sonraki;
+                Console.WriteLine($"Üzgünüz, \"{kitapBaslik}\" kitabından yeterli miktarda bulunmamaktadır.");
             }
-        }
-        IslemGecmisiEkle("Kitap Cikarildi");
-    }
-
-    static void KitaplariListele()
-    {
-        if (kitapBasi == null)
-        {
-            Console.WriteLine("Listelenecek kitap bulunamadı.");
-        }
-        else
-        {
-            Kitap temp = kitapBasi;
-            while (temp != null)
-            {
-                Console.WriteLine($"ID: {temp.Id}, Başlık: {temp.Baslik}");
-                temp = temp.Sonraki;
-            }
-        }
-        IslemGecmisiEkle("Kitap Listelendi");
-    }
-
-    static void KitapAlimi(string uyeIsim, string kitapBaslik)
-    {
-        // Üyeye kitap verme fonksiyonu
-        Uye uye = UyeBul(uyeIsim);
-        Kitap kitap = KitapBul(kitapBaslik);
-        if (uye != null && kitap != null)
-        {
-            Kitap yeniKitap = new Kitap { Id = kitap.Id, Baslik = kitap.Baslik, Sonraki = uye.AldigiKitaplarBasi };
-            uye.AldigiKitaplarBasi = yeniKitap;
-            Console.WriteLine("Kitap alımı başarılı.");
-            
         }
         else
         {
@@ -821,42 +1131,9 @@ class Program
             if (kitap == null)
                 Console.WriteLine("Kitap bulunamadı.");
         }
-        IslemGecmisiEkle("Kitap Alimi Yapildi");
+        IslemGecmisiEkle($"Kitap alındı: Üye: {uyeIsim}, Kitap: {kitapBaslik}, Adet: {adet}");
     }
 
-    static void UyeKontrolu(string uyeIsim)
-    {
-        // Üyenin aldığı kitapları listeleme fonksiyonu
-        Uye uye = UyeBul(uyeIsim);
-        if (uye != null)
-        {
-            Console.WriteLine($"{uye.Isim} adlı üyenin aldığı kitaplar:");
-            Kitap temp = uye.AldigiKitaplarBasi;
-            while (temp != null)
-            {
-                Console.WriteLine($"- {temp.Baslik}");
-                temp = temp.Sonraki;
-            }
-        }
-        else
-        {
-            Console.WriteLine("Üye bulunamadı.");
-        }
-        IslemGecmisiEkle("Uye Kontrolu Yapildi");
-    }
-
-    // Yardımcı fonksiyonlar
-    static Uye UyeBul(string isim)
-    {
-        // İsme göre üye bulma fonksiyonu
-        Uye temp = uyeBasi;
-        while (temp != null && temp.Isim != isim)
-        {
-            temp = temp.Sonraki;
-        }
-        return temp;
-        IslemGecmisiEkle("Uye Bul Calistirldi ");
-    }
 
     static Kitap KitapBul(string baslik)
     {
@@ -869,6 +1146,7 @@ class Program
         return temp;
         IslemGecmisiEkle("Kitap Bul Calistirldi ");
     }
+    //ETKINLIK ISLEMLERI-------
     static void EtkinlikKuyruguMenu()
     {
         int secim;
@@ -910,7 +1188,6 @@ class Program
         } while (secim != 0);
         IslemGecmisiEkle("Etkinlik İslemleri Yapildi ");
     }
-
     static void EtkinlikKatilimcilariniGoruntule()
     {
 
@@ -932,7 +1209,6 @@ class Program
     {
         etkinlikKuyruguBasi = null; // Kuyruğun başını null yaparak kuyruğu sıfırlar
     }
-
     static void EtkinligeKatilimEkle(string isim)
     {
         Uye uye = UyeBul(isim);
@@ -959,135 +1235,26 @@ class Program
             Console.WriteLine("Üye bulunamadı veya etkinliğe zaten kayıtlı.");
         }
     }
-    static bool PersonelVarMi(int id) // aynı id degerine sahip personel girisinin engellenmesi icin
+    static void Hazirlayanlar()
     {
-        Personel temp = personelBasi;
-        while (temp != null)
-        {
-            if (temp.Id == id)
-            {
-                return true;
-            }
-            temp = temp.Sonraki;
-        }
-        return false;
-    }
+        Console.WriteLine("███████████████████████████████");
+        Console.WriteLine("█   Projeyi Hazırlayanlar     █");
+        Console.WriteLine("███████████████████████████████");
+        Console.WriteLine("█ -> Dına Veladıka            █");
+        Console.WriteLine("█ -> Ayetullah BAKAN          █");
+        Console.WriteLine("█ -> Mahsa Omidvar Gharehbaba █");
+        Console.WriteLine("█ -> Zeynep Alperen           █");
+        Console.WriteLine("███████████████████████████████");
+        IslemGecmisiEkle("Hazirlayanlar Goruntulendi");
 
-    static bool UyeVarMi(int id)
+    }
+    //ISLEM GECMISI ISLEMLERI
+    static void IslemGecmisiEkle(string islem)
     {
-        Uye temp = uyeBasi;
-        while (temp != null)
-        {
-            if (temp.Id == id)
-            {
-                return true;
-            }
-            temp = temp.Sonraki;
-        }
-        return false;
+        islemGecmisi.Push(islem);
     }
-
-    static bool KitapVarMi(int id)
+    static void IslemGecmisiGoster(int sayi)
     {
-        Kitap temp = kitapBasi;
-        while (temp != null)
-        {
-            if (temp.Id == id)
-            {
-                return true;
-            }
-            temp = temp.Sonraki;
-        }
-        return false;
+        islemGecmisi.Display(sayi);
     }
-    static void MesaiSaatleriMenu()
-    {
-        int secim;
-        do
-        {
-            Console.WriteLine("█████████████████████████████████████████");
-            Console.WriteLine("█         Mesai Saatleri Yönetimi       █");
-            Console.WriteLine("█████████████████████████████████████████");
-            Console.WriteLine("█1. Personelin Mesai Saatlerini Ekle    █");
-            Console.WriteLine("█2. Personelin Mesai Saatlerini Çıkar   █");
-            Console.WriteLine("█3. Personelin Mesai Saatlerini Listele █");
-            Console.WriteLine("█0. Ana Menüye Dön                      █");
-            Console.WriteLine("█████████████████████████████████████████");
-            Console.Write("Seçiminiz: ");
-            secim = isInt();
-            switch (secim)
-            {
-                case 1:
-                    MesaiSaatleriEkle();
-                    break;
-                case 2:
-                    MesaiSaatleriCikar();
-                    break;
-                case 3:
-                    MesaiSaatleriListele();
-                    break;
-                case 0:
-                    Console.WriteLine("Ana Menüye Dönülüyor...");
-                    break;
-                default:
-                    Console.WriteLine("Geçersiz seçim.");
-                    break;
-            }
-        } while (secim != 0);
-    }
-
-    static void MesaiSaatleriEkle()
-    {
-        if (personelBasi == null)
-        {
-            Console.WriteLine("Önce bir personel eklemelisiniz.");
-            return;
-        }
-
-        Console.Write("Personel ID giriniz: ");
-        int id = isInt();
-
-        if (!PersonelVarMi(id))
-        {
-            Console.WriteLine("Girilen ID'ye sahip bir personel bulunamadı.");
-            return;
-        }
-
-        Console.Write("Mesai saatlerini giriniz: ");
-        string saatler = Console.ReadLine();
-        mesaiHashtable.Add(id, saatler);
-        IslemGecmisiEkle($"Personel ID: {id}'ye mesai saatleri eklendi.");
-    }
-
-
-    static void MesaiSaatleriCikar()
-    {
-        if (personelBasi == null)
-        {
-            Console.WriteLine("Önce bir personel eklemelisiniz.");
-            return;
-        }
-
-        Console.Write("Personel ID giriniz: ");
-        int id = isInt();
-
-        if (!PersonelVarMi(id))
-        {
-            Console.WriteLine("Girilen ID'ye sahip bir personel bulunamadı.");
-            return;
-        }
-
-        mesaiHashtable.Remove(id);
-        IslemGecmisiEkle($"Personel ID: {id}'nin mesai saatleri çıkarıldı.");
-    }
-
-
-    static void MesaiSaatleriListele()
-    {
-        Console.WriteLine("Tüm personel mesai saatleri:");
-        mesaiHashtable.Display();
-        IslemGecmisiEkle("Mesai saatleri listelendi.");
-    }
-
-
 }
