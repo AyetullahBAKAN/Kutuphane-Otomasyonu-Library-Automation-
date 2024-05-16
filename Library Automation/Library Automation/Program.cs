@@ -324,7 +324,93 @@ class Program
     "Bir kitap, karanlıkta bir ışık, yalnızlıkta bir dost, umutsuzlukta bir umuttur. - Victor Hugo",
     "Kitaplar, insanın bilgiye açılan pencereleridir. - Malala Yousafzai"
 };
+    static Dictionary<string, string> kullaniciBilgileri = new Dictionary<string, string>()
+{
+    {"kullanici1", "sifre1"},
+    {"kullanici2", "sifre2"},
+    {"kullanici3", "sifre3"},
+    {"kullanici4", "sifre4"}
+};
+
     static void Main(string[] args)
+    {
+        
+        int secimUsers;
+        do
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("░░████████████░░░█████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
+            Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════╝");
+            Console.WriteLine("                              █████████████████████");    
+            Console.WriteLine("                              █    GIRIS YAP(1)   █");    
+            Console.WriteLine("                              █████████████████████");
+            Console.WriteLine("                              █OTOMASYONU KAPAT(0)█");
+            Console.WriteLine("                              █████████████████████");
+            Console.Write("Seciminiz : ");
+            secimUsers = isInt();
+
+            switch (secimUsers)
+            {
+                case 1:
+                    GirisYap();
+                    break;
+                case 0:
+                    Console.WriteLine("Programdan çıkılıyor...");
+                    break;
+                default:
+                    Console.WriteLine("Geçersiz seçim.");
+                    break;
+            }
+        } while (secimUsers != 0);
+       
+    }
+    static void GirisYap()
+    {
+        Console.Write("Kullanıcı adı: ");
+        string kullaniciAdi = Console.ReadLine();
+
+        Console.Write("Şifre: ");
+        string sifre = Console.ReadLine();
+
+        // Kullanıcı adı ve şifreyi kontrol et
+        if (kullaniciBilgileri.ContainsKey(kullaniciAdi))
+        {
+            if (kullaniciBilgileri[kullaniciAdi] == sifre)
+            {
+                Console.Clear();
+                AnaProgram();
+            }
+            else
+            {
+                Console.WriteLine("Hatalı şifre.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Geçersiz kullanıcı adı.");
+        }
+    }
+    static void AnaProgram()
     {
         int secim;
         string isim;
@@ -467,6 +553,7 @@ class Program
                     break;
             }
         } while (secim != 0);
+
     }
     static void MenuGoster()
     {
@@ -482,31 +569,31 @@ class Program
         Console.WriteLine($"{ozluSozler[index]}");
         Console.WriteLine("\n");
         Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████");
-        Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█████   ISLEM MENUSU   ███████░░░░░░░░░░░░░░░░░░░░███░██░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░██░░░█░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 1.  Personel Ekle          █░░░░░░░░░░░░░░░░░░░░██░░░██░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 2.  Personel Çıkar         █░░░░░░░░░░░░░░░░░░░░░██░░░███░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 3   Personel MSY Sistemi   █░░░░░░░░░░░░░░░░░░░░░░██░░░░██░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 4.  Üye Ekle               █░░░░░░░░░░░░░░░░░░░░░░██░░░░░███░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 5.  Üye Çıkar              █░░░░░░░░░░░░░░░░░░░░░░░██░░░░░░██░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 6.  Kitap Ekle             █░░░░░░░░░░░░░░░░░░███████░░░░░░░██░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 7.  Kitap Çıkar            █░░░░░░░░░░░░░░░█████░░░░░░░░░░░░░░███░██░░░░░█");
-        Console.WriteLine("█░░░░░░█ 8.  Personelleri Listele   █░░░░░░░░░░░░░░██░░░░░████░░░░░░░░░░██████░░░░█");
-        Console.WriteLine("█░░░░░░█ 9.  Üyeleri Listele        █░░░░░░░░░░░░░░██░░████░░███░░░░░░░░░░░░░██░░░█");
-        Console.WriteLine("█░░░░░░█ 10. Kitapları Listele      █░░░░░░░░░░░░░░██░░░░░░░░███░░░░░░░░░░░░░██░░░█");
-        Console.WriteLine("█░░░░░░█ 11. Kitap Alımı            █░░░░░░░░░░░░░░░██████████░███░░░░░░░░░░░██░░░█");
-        Console.WriteLine("█░░░░░░█ 12. Üye Kontrolü           █░░░░░░░░░░░░░░░██░░░░░░░░████░░░░░░░░░░░██░░░█");
-        Console.WriteLine("█░░░░░░█ 13. Üye Bul                █░░░░░░░░░░░░░░░███████████░░██░░░░░░░░░░██░░░█");
-        Console.WriteLine("█░░░░░░█ 14. Kitap Bul              █░░░░░░░░░░░░░░░░░██░░░░░░░████░░░░░██████░░░░█");
-        Console.WriteLine("█░░░░░░█ 15. Kitap Tavsiye          █░░░░░░░░░░░░░░░░░██████████░██░░░░███░██░░░░░█");
-        Console.WriteLine("█░░░░░░█ 16. Etkinlik Kuyruğu       █░░░░░░░░░░░░░░░░░░░░██░░░░░████░███░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 17. Ture Gore Arama        █░░░░░░░░░░░░░░░░░░░░█████████████░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 18. Islem Gecmisi          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 19. Kitap iade islemi      █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 20. Hazırlayanlar          █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░█ 0.  Çıkış                  █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
-        Console.WriteLine("█░░░░░░██████████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░██████████████████████████████░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█████   ISLEM MENUSU   ███████░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░██████████████████████████████░░█░░░░░░░░░░░░░░░░░░████░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 1.  Personel Ekle          █░░█░░░░░░░░░░░░░░░░░███░██░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 2.  Personel Çıkar         █░░█░░░░░░░░░░░░░░░░░██░░░█░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 3   Personel MSY Sistemi   █░░█░░░░░░░░░░░░░░░░░██░░░██░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 4.  Üye Ekle               █░░█░░░░░░░░░░░░░░░░░░██░░░███░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 5.  Üye Çıkar              █░░█░░░░░░░░░░░░░░░░░░░██░░░░██░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 6.  Kitap Ekle             █░░█░░░░░░░░░░░░░░░░░░░██░░░░░███░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 7.  Kitap Çıkar            █░░█░░░░░░░░░░░░░░░░░░░░██░░░░░░██░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 8.  Personelleri Listele   █░░█░░░░░░░░░░░░░░░███████░░░░░░░██░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 9.  Üyeleri Listele        █░░█░░░░░░░░░░░░█████░░░░░░░░░░░░░░███░██░░░░░█");
+        Console.WriteLine("█░░░█░░█ 10. Kitapları Listele      █░░█░░░░░░░░░░░██░░░░░████░░░░░░░░░░██████░░░░█");
+        Console.WriteLine("█░░░█░░█ 11. Kitap Alımı            █░░█░░░░░░░░░░░██░░████░░███░░░░░░░░░░░░░██░░░█");
+        Console.WriteLine("█░░░█░░█ 12. Üye Kontrolü           █░░█░░░░░░░░░░░██░░░░░░░░███░░░░░░░░░░░░░██░░░█");
+        Console.WriteLine("█░░░█░░█ 13. Üye Bul                █░░█░░░░░░░░░░░░██████████░███░░░░░░░░░░░██░░░█");
+        Console.WriteLine("█░░░█░░█ 14. Kitap Bul              █░░█░░░░░░░░░░░░██░░░░░░░░████░░░░░░░░░░░██░░░█");
+        Console.WriteLine("█░░░█░░█ 15. Kitap Tavsiye          █░░█░░░░░░░░░░░░███████████░░██░░░░░░░░░░██░░░█");
+        Console.WriteLine("█░░░█░░█ 16. Etkinlik Kuyruğu       █░░█░░░░░░░░░░░░░░██░░░░░░░████░░░░░██████░░░░█");
+        Console.WriteLine("█░░░█░░█ 17. Ture Gore Arama        █░░█░░░░░░░░░░░░░░██████████░██░░░░███░██░░░░░█");
+        Console.WriteLine("█░░░█░░█ 18. Islem Gecmisi          █░░█░░░░░░░░░░░░░░░░░██░░░░░████░███░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 19. Kitap iade islemi      █░░█░░░░░░░░░░░░░░░░░█████████████░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 20. Hazırlayanlar          █░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░█ 0.  Çıkış                  █░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+        Console.WriteLine("█░░░█░░██████████████████████████████░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
         Console.WriteLine("███████████████████████████████████████████████████████████████████████████████████");
         Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════╗");
         Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
@@ -516,10 +603,9 @@ class Program
     {
         int input;
         int sec;
-
         while (true)
         {
-            Console.Write("Lütfen bir sayı girin: ");
+            //Console.Write("Lütfen bir sayı girin: ");
             string userInput = Console.ReadLine();
 
             // Kullanıcının girdisi integer mı diye kontrol edelim
@@ -536,7 +622,6 @@ class Program
             }
         }
         return sec;
-
     }
     // PERSONEL ISLEMLERI------------
     static void PersonelEkle(int id, string isim)
@@ -547,7 +632,6 @@ class Program
             Console.WriteLine("Hata: Bu ID'ye sahip bir personel zaten var.");
             return;
         }
-
         // Personel ekleyen fonksiyon
         Personel yeniPersonel = new Personel { Id = id, Isim = isim, Sonraki = personelBasi };
         personelBasi = yeniPersonel;
@@ -590,14 +674,14 @@ class Program
         int secim;
         do
         {
-            Console.WriteLine("█████████████████████████████████████████");
-            Console.WriteLine("█         Mesai Saatleri Yönetimi       █");
-            Console.WriteLine("█████████████████████████████████████████");
-            Console.WriteLine("█1. Personelin Mesai Saatlerini Ekle    █");
-            Console.WriteLine("█2. Personelin Mesai Saatlerini Çıkar   █");
-            Console.WriteLine("█3. Personelin Mesai Saatlerini Listele █");
-            Console.WriteLine("█0. Ana Menüye Dön                      █");
-            Console.WriteLine("█████████████████████████████████████████");
+            Console.WriteLine("██████████████████████████████████████████████");
+            Console.WriteLine("█░░█         Mesai Saatleri Yönetimi      █░░█");
+            Console.WriteLine("█░░████████████████████████████████████████░░█");
+            Console.WriteLine("█░░█1. Personelin Mesai Saatlerini Ekle   █░░█");
+            Console.WriteLine("█░░█2. Personelin Mesai Saatlerini Çıkar  █░░█");
+            Console.WriteLine("█░░█3. Personelin Mesai Saatlerini Listele█░░█");
+            Console.WriteLine("█░░█0. Ana Menüye Dön                     █░░█");
+            Console.WriteLine("██████████████████████████████████████████████");
             Console.Write("Seçiminiz: ");
             secim = isInt();
             switch (secim)
@@ -629,17 +713,27 @@ class Program
         }
         Console.Write("Personel ID giriniz: ");
         int id = isInt();
+
+        // ID kontrolü
         if (!PersonelVarMi(id))
         {
-            Console.WriteLine("Girilen ID'ye sahip bir personel zaten var.");
+            Console.WriteLine("Girilen ID'ye sahip bir personel bulunamadı.");
             return;
         }
-        Console.WriteLine("Girilen ID'ye sahip bir personel zaten var.");
+
+        // Daha önceden mesai saatleri kaydedilmiş mi kontrolü
+        if (mesaiHashtable.Get(id) != null)
+        {
+            Console.WriteLine("Bu ID'ye sahip personelin mesai saatleri zaten kaydedilmiş.");
+            return;
+        }
+
         Console.Write("Mesai saatlerini giriniz: ");
         string saatler = Console.ReadLine();
         mesaiHashtable.Add(id, saatler);
         IslemGecmisiEkle($"Personel ID: {id}'ye mesai saatleri eklendi.");
     }
+
     static void MesaiSaatleriCikar()
     {
         if (personelBasi == null)
@@ -651,15 +745,24 @@ class Program
         Console.Write("Personel ID giriniz: ");
         int id = isInt();
 
+        // ID kontrolü
         if (!PersonelVarMi(id))
         {
             Console.WriteLine("Girilen ID'ye sahip bir personel bulunamadı.");
             return;
         }
 
+        // Kayıtlı mesai saatlerinin kontrolü
+        if (mesaiHashtable.Get(id) == null)
+        {
+            Console.WriteLine("Bu ID'ye sahip personelin kayıtlı mesai saatleri bulunmamaktadır.");
+            return;
+        }
+
         mesaiHashtable.Remove(id);
         IslemGecmisiEkle($"Personel ID: {id}'nin mesai saatleri çıkarıldı.");
     }
+
     static void MesaiSaatleriListele()
     {
         Console.WriteLine("Tüm personel mesai saatleri:");
@@ -1016,7 +1119,7 @@ class Program
             {
                 if (temp.Turu == tur)
                 {
-                    Console.WriteLine($"ID: {temp.Id}, Başlık: {temp.Baslik}, Türü: {temp.Turu}");
+                    Console.WriteLine($"ID: {temp.Kitap.Id}, Başlık: {temp.Kitap.Baslik}, Türü: {temp.Turu}");
                 }
                 temp = temp.Sag;
             }
@@ -1139,12 +1242,13 @@ class Program
     {
         // Başlığa göre kitap bulma fonksiyonu
         Kitap temp = kitapBasi;
+        IslemGecmisiEkle("Kitap Bul Calistirldi ");
         while (temp != null && temp.Baslik != baslik)
         {
             temp = temp.Sonraki;
         }
         return temp;
-        IslemGecmisiEkle("Kitap Bul Calistirldi ");
+       
     }
     //ETKINLIK ISLEMLERI-------
     static void EtkinlikKuyruguMenu()
