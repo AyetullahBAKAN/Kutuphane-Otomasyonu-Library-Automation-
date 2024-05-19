@@ -12,3 +12,11 @@ C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\
 C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\Library Automation.pdb
 C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\Library Automation.genruntimeconfig.cache
 C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\ref\Library Automation.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.Asio.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.Core.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.Midi.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.Wasapi.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\bin\Debug\net7.0\NAudio.WinMM.dll
+C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\Library Automation.csproj.AssemblyReference.cache
+C:\Users\pc\source\repos\Library Automation\Library Automation\obj\Debug\net7.0\Library Automation.csproj.CopyComplete

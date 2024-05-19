@@ -1,9 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System;                          //Bursa Uludag Universitesi Veri Yapıları Dersi Kutuphane Otomasyonu Projesi(12.Grup)
+using System.Collections.Generic;     //Mahsa Omidvar Gharehbaba(032290146),Ayetullah BAKAN(032090039),Dina Veladika(032290152)
 using System.Linq;
+//using System.Diagnostics;//1
+//using static System.Runtime.MemoryFailPoint;//2
+//using System.Security.Cryptography.X509Certificates;//3       1,2 ve 3 kutuphaneleri Algortitma analizi yapan fonksiyon için kullanıldı. 
 
+//graph yapısı
 public class GraphNode
 {
+
     public Kitap Kitap;
     public GraphNode Next;
 
@@ -41,7 +46,7 @@ public class MyStack
     {
         Node newNode = new Node(data);
         newNode.Next = top;
-        newNode.Timestamp = DateTime.Now; // Adding timestamp
+        newNode.Timestamp = DateTime.Now; //  timestamp ekledik
         top = newNode;
     }
 
@@ -54,7 +59,7 @@ public class MyStack
             return null;
         }
         string poppedData = top.Data;
-        timestamp = (DateTime)top.Timestamp; // Returning timestamp
+        timestamp = (DateTime)top.Timestamp; //  timestamp geri döndürüyoz.
         top = top.Next;
         return poppedData;
     }
@@ -175,7 +180,7 @@ public class BSTNode
 public class Hashtable
 {
     private const int SIZE = 100; // Hashtable boyutu
-    private Node[] buckets; // Node dizisi
+    private Node[] buckets; // Node dizisi 
 
     public Hashtable()
     {
@@ -246,7 +251,7 @@ public class Hashtable
             }
             current = current.Next;
         }
-        return null; // Anahtar bulunamadı
+        return null; // Anahtar bulunamadı isee
     }
 
     // Hashtable içeriğini listeleme metodu
@@ -284,6 +289,7 @@ public class Hashtable
 }
 class Program
 {
+       
     static Hashtable mesaiHashtable = new Hashtable();
     public static MyStack islemGecmisi = new MyStack();
     static Dictionary<KitapTuru, GraphNode> grafDict = new Dictionary<KitapTuru, GraphNode>();
@@ -298,7 +304,7 @@ class Program
         public string Isim;
         public EtkinlikKatilimci Sonraki;
     }
-    /// </summary>
+    
     static EtkinlikKatilimci etkinlikKuyruguBasi = null;
     // Özlü sözlerin listesi
     static List<string> ozluSozler = new List<string>
@@ -334,7 +340,10 @@ class Program
 
     static void Main(string[] args)
     {
-        
+        GirisMenu();
+    }
+    static void GirisMenu()
+    {
         int secimUsers;
         do
         {
@@ -343,29 +352,33 @@ class Program
             Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
             Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════╝");
-            Console.WriteLine("░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-            Console.WriteLine("░░████████████░░░█████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+            Console.WriteLine("████████████████████████████████████████████████████████████████████████████████████");
+            Console.WriteLine("█░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("█░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░███████████████████████████");
+            Console.WriteLine("█░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("█░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░█████████████████████");
+            Console.WriteLine("█░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("█░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░█████████████████");
+            Console.WriteLine("█░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("█░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░█████████████████");
+            Console.WriteLine("█░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("███▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░█████████████████");
+            Console.WriteLine("██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("███▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░█████████████████████");
+            Console.WriteLine("█░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("█░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░░░░░░░░░░░░░░░░░███████████████████████████");
+            Console.WriteLine("█░░████████████░░░█████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
             Console.WriteLine("╔═════════════════════════════════════════════════════════════════════════════════╗");
             Console.WriteLine("║                 Bursa Uludag Universitesi Kütüphane Otomasyonu                  ║");
             Console.WriteLine("╚═════════════════════════════════════════════════════════════════════════════════╝");
-            Console.WriteLine("                              █████████████████████");    
-            Console.WriteLine("                              █    GIRIS YAP(1)   █");    
-            Console.WriteLine("                              █████████████████████");
-            Console.WriteLine("                              █OTOMASYONU KAPAT(0)█");
-            Console.WriteLine("                              █████████████████████");
+            Console.WriteLine("████████████████████████████████████████████████████████████████████████████████████");
+            Console.WriteLine("█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("████████████████████████████████████████░░░░░███████████████████████████████████████");
+            Console.WriteLine("█░░░░░░░░░░░░░░░░░░    GIRIS YAP(1)     ░░░░░       KAPAT(0)      ░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("████████████████████████████████████████░░░░░███████████████████████████████████████");
+            Console.WriteLine("█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█");
+            Console.WriteLine("████████████████████████████████████████████████████████████████████████████████████");
+
             Console.Write("Seciminiz : ");
             secimUsers = isInt();
 
@@ -382,7 +395,8 @@ class Program
                     break;
             }
         } while (secimUsers != 0);
-       
+
+
     }
     static void GirisYap()
     {
@@ -429,6 +443,7 @@ class Program
                     Console.Write("Personel ismi giriniz: ");
                     isim = Console.ReadLine();
                     PersonelEkle(id, isim);
+                    
                     break;
                 case 2:
                     Console.Write("Silinecek personel ID giriniz: ");
@@ -633,7 +648,7 @@ class Program
             return;
         }
         // Personel ekleyen fonksiyon
-        Personel yeniPersonel = new Personel { Id = id, Isim = isim, Sonraki = personelBasi };
+        Personel yeniPersonel = new Personel { Id = id, Isim = isim, Sonraki = personelBasi };//başa ekle mantığı
         personelBasi = yeniPersonel;
         IslemGecmisiEkle("Personel Eklendi");
     }
@@ -850,7 +865,7 @@ class Program
                 // Eğer şu anki kitap bir önceki kitapla aynı değilse, yazdır
                 if (temp.Baslik != oncekiKitapBaslik)
                 {
-                    int aldigiAdet = AldigiKitapAdetiniBul(uye.AldigiKitaplarBasi,temp.Id); // Kitabın adetini bul
+                    int aldigiAdet = AldigiKitapAdetiniBul(uye.AldigiKitaplarBasi, temp.Id); // Kitabın adetini bul
                     Console.WriteLine($"- {temp.Baslik} ({aldigiAdet} adet)");
                     oncekiKitapBaslik = temp.Baslik; // Bir sonraki kitap için bir önceki kitabı güncelle
                 }
@@ -880,13 +895,14 @@ class Program
     static Uye UyeBul(string isim)
     {
         // İsme göre üye bulma fonksiyonu
+        IslemGecmisiEkle("Uye Bul Calistirldi ");
         Uye temp = uyeBasi;
         while (temp != null && temp.Isim != isim)
         {
             temp = temp.Sonraki;
         }
         return temp;
-        IslemGecmisiEkle("Uye Bul Calistirldi ");
+        
     }
     static bool UyeVarMi(int id) // aynı id degerine sahip UYE girisinin engellenmesi icin
     {
@@ -976,6 +992,11 @@ class Program
             Console.WriteLine("Hata: Bu ID'ye sahip bir kitap zaten var.");
             return;
         }
+        if (KitapVarMi(baslik))
+        {
+            Console.WriteLine("Hata: Bu Baslıga sahip bir kitap zaten var.");
+            return;
+        }
 
         Kitap yeniKitap = new Kitap { Id = id, Baslik = baslik, Turu = turu, Adet = adet, Sonraki = kitapBasi };
         kitapBasi = yeniKitap;
@@ -998,34 +1019,6 @@ class Program
         kitapBST = KitapBSTEkle(kitapBST, yeniKitap);
         IslemGecmisiEkle("Kitap Eklendi");
     }
-    static void KitapCikar(int id)
-    {
-
-        if (kitapBasi == null)
-        {
-            Console.WriteLine("Cikarilacak kitap bulunamadı.");
-        }
-        else
-        {
-            // Kitap çıkaran fonksiyon
-            Kitap temp = kitapBasi, onceki = null;
-            while (temp != null && temp.Id != id)
-            {
-                onceki = temp;
-                temp = temp.Sonraki;
-            }
-            if (temp == null) return;
-            if (onceki == null)
-            {
-                kitapBasi = temp.Sonraki;
-            }
-            else
-            {
-                onceki.Sonraki = temp.Sonraki;
-            }
-        }
-        IslemGecmisiEkle("Kitap Cikarildi");
-    }
     // Kitap iade işlemi
     static void KitapIade(string kitapBaslik)
     {
@@ -1043,7 +1036,7 @@ class Program
                 int iadeMiktari = Convert.ToInt32(Console.ReadLine());
 
                 // Üyeden iade edilecek kitabın sayısını kontrol et
-                if (iadeMiktari <= uye.AldigiKitapSayisi())
+                if (iadeMiktari <= uye.AldigiKitapSayisi() && uye.AldigiKitapSayisi() > 0)
                 {
                     // Üyeden kitapları iade et
                     for (int i = 0; i < iadeMiktari; i++)
@@ -1056,9 +1049,13 @@ class Program
 
                     Console.WriteLine($"\"{kitapBaslik}\" kitabından {iadeMiktari} adet başarıyla iade edildi.");
                 }
+                if (uye.AldigiKitapSayisi() <= 0)
+                {
+                    Console.WriteLine("Bu kitap üye tarafından alınmamış");
+                }
                 else
                 {
-                    Console.WriteLine($"Üye \"{kitapBaslik}\" kitabından {uye.AldigiKitapSayisi()} adetten az iade edemez.");
+                    Console.WriteLine($"Üye \"{kitapBaslik}\" kitabından {uye.AldigiKitapSayisi()} adetten fazla iade edemez.");
                 }
             }
             else
@@ -1092,7 +1089,19 @@ class Program
         }
         IslemGecmisiEkle("Kitaplar listelendi");
     }
-
+    static bool KitapVarMi(string baslik) // kitap var mı fonks'nun string deger alan hali
+    {
+        Kitap temp = kitapBasi;
+        while (temp != null)
+        {
+            if (temp.Baslik == baslik)
+            {
+                return true;
+            }
+            temp = temp.Sonraki;
+        }
+        return false;
+    }
     static bool KitapVarMi(int id) // aynı id degerine sahip KITAP girisinin engellenmesi icin
     {
         Kitap temp = kitapBasi;
@@ -1153,7 +1162,6 @@ class Program
             Console.WriteLine("Üye bulunamadı.");
             return;
         }
-
         var tavsiyeEdilecekKitaplar = new List<Kitap>();
         TavsiyeEdilenKitaplariBul(kitapBST, uye.AldigiKitaplarBasi, tavsiyeEdilecekKitaplar);
 
@@ -1203,7 +1211,6 @@ class Program
         }
         return false;
     }
-    // Kitap alımı işlemi
     static void KitapAlimi(string uyeIsim, string kitapBaslik, int adet)
     {
         Uye uye = UyeBul(uyeIsim);
@@ -1248,7 +1255,7 @@ class Program
             temp = temp.Sonraki;
         }
         return temp;
-       
+
     }
     //ETKINLIK ISLEMLERI-------
     static void EtkinlikKuyruguMenu()
@@ -1347,7 +1354,6 @@ class Program
         Console.WriteLine("█ -> Dına Veladıka            █");
         Console.WriteLine("█ -> Ayetullah BAKAN          █");
         Console.WriteLine("█ -> Mahsa Omidvar Gharehbaba █");
-        Console.WriteLine("█ -> Zeynep Alperen           █");
         Console.WriteLine("███████████████████████████████");
         IslemGecmisiEkle("Hazirlayanlar Goruntulendi");
 
@@ -1361,4 +1367,34 @@ class Program
     {
         islemGecmisi.Display(sayi);
     }
+   /*public class PerformanceAnalyzer     --------->  //HOCAM BU FONKSİYON GEREKTİĞİ DURUMLARDA ALGORİTMA ANALİZİ YAPIP UYGUN YAPIYI SECMEMİZE YARDIMCI OLMASI İÇİN EKLEDİK SADECE TEST DURUMLARINDA KULLANDIK 
+{                                                  //( PerformanceAnalyzer x=new PerformanceAnalyzer();x.Analyze(Hazirlayanlar);) --->KULLANIMA BİR ÖRNEKTİR
+    public  void Analyze(Action targetFunction)
+    {
+        // Zaman ölçümü için Stopwatch başlatılıyor.
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        // Hedef fonksiyon çalıştırılıyor.
+        targetFunction.Invoke();
+
+        // Stopwatch durduruluyor.
+        stopwatch.Stop();
+
+        // Çalışma süresi yazdırılıyor.
+        Console.WriteLine($"Çalışma Süresi: {stopwatch.ElapsedMilliseconds} ms");
+
+        // Bellek kullanımı ölçülüyor.
+        long memoryUsageBefore = GC.GetTotalMemory(true);
+        targetFunction.Invoke();
+        long memoryUsageAfter = GC.GetTotalMemory(false);
+
+        // Kullanılan bellek miktarı hesaplanıyor.
+        long memoryUsed = memoryUsageAfter - memoryUsageBefore;
+
+        // Bellek kullanımı yazdırılıyor.
+        Console.WriteLine($"Yaklaşık Bellek Kullanımı: {memoryUsed} bytes");
+    }
+}
+*/
+
 }
