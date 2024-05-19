@@ -3,21 +3,10 @@ using System.Collections.Generic;     //Mahsa Omidvar Gharehbaba(032290146),Ayet
 using System.Linq;
 //using System.Diagnostics;//1
 //using static System.Runtime.MemoryFailPoint;//2
-//using System.Security.Cryptography.X509Certificates;//3       1,2 ve 3 kutuphaneleri Algortitma analizi yapan fonksiyon için kullanıldı. 
+//using System.Security.Cryptography.X509Certificates;//3
+//1,2 ve 3 kutuphaneleri Algortitma analizi yapan fonksiyon için kullanıldı. 
 
-//graph yapısı
-public class GraphNode
-{
 
-    public Kitap Kitap;
-    public GraphNode Next;
-
-    public GraphNode(Kitap kitap)
-    {
-        Kitap = kitap;
-        Next = null;
-    }
-}
 // Node yapısı
 public class Node
 {
@@ -289,10 +278,9 @@ public class Hashtable
 }
 class Program
 {
-       
+
     static Hashtable mesaiHashtable = new Hashtable();
     public static MyStack islemGecmisi = new MyStack();
-    static Dictionary<KitapTuru, GraphNode> grafDict = new Dictionary<KitapTuru, GraphNode>();
     // bağlı liste başlangıçları
     static Personel personelBasi = null;
     static Uye uyeBasi = null;
@@ -304,7 +292,7 @@ class Program
         public string Isim;
         public EtkinlikKatilimci Sonraki;
     }
-    
+
     static EtkinlikKatilimci etkinlikKuyruguBasi = null;
     // Özlü sözlerin listesi
     static List<string> ozluSozler = new List<string>
@@ -443,7 +431,7 @@ class Program
                     Console.Write("Personel ismi giriniz: ");
                     isim = Console.ReadLine();
                     PersonelEkle(id, isim);
-                    
+
                     break;
                 case 2:
                     Console.Write("Silinecek personel ID giriniz: ");
@@ -902,7 +890,7 @@ class Program
             temp = temp.Sonraki;
         }
         return temp;
-        
+
     }
     static bool UyeVarMi(int id) // aynı id degerine sahip UYE girisinin engellenmesi icin
     {
@@ -1000,22 +988,6 @@ class Program
 
         Kitap yeniKitap = new Kitap { Id = id, Baslik = baslik, Turu = turu, Adet = adet, Sonraki = kitapBasi };
         kitapBasi = yeniKitap;
-
-        // Grafı güncelle
-        if (!grafDict.ContainsKey(turu))
-        {
-            grafDict[turu] = new GraphNode(yeniKitap);
-        }
-        else
-        {
-            GraphNode temp = grafDict[turu];
-            while (temp.Next != null)
-            {
-                temp = temp.Next;
-            }
-            temp.Next = new GraphNode(yeniKitap);
-        }
-
         kitapBST = KitapBSTEkle(kitapBST, yeniKitap);
         IslemGecmisiEkle("Kitap Eklendi");
     }
@@ -1367,34 +1339,34 @@ class Program
     {
         islemGecmisi.Display(sayi);
     }
-   /*public class PerformanceAnalyzer     --------->  //HOCAM BU FONKSİYON GEREKTİĞİ DURUMLARDA ALGORİTMA ANALİZİ YAPIP UYGUN YAPIYI SECMEMİZE YARDIMCI OLMASI İÇİN EKLEDİK SADECE TEST DURUMLARINDA KULLANDIK 
-{                                                  //( PerformanceAnalyzer x=new PerformanceAnalyzer();x.Analyze(Hazirlayanlar);) --->KULLANIMA BİR ÖRNEKTİR
-    public  void Analyze(Action targetFunction)
-    {
-        // Zaman ölçümü için Stopwatch başlatılıyor.
-        Stopwatch stopwatch = Stopwatch.StartNew();
+    /*public class PerformanceAnalyzer     --------->  //HOCAM BU FONKSİYON GEREKTİĞİ DURUMLARDA ALGORİTMA ANALİZİ YAPIP UYGUN YAPIYI SECMEMİZE YARDIMCI OLMASI İÇİN EKLEDİK SADECE TEST DURUMLARINDA KULLANDIK 
+ {                                                  //( PerformanceAnalyzer x=new PerformanceAnalyzer();x.Analyze(Hazirlayanlar);) --->KULLANIMA BİR ÖRNEKTİR
+     public  void Analyze(Action targetFunction)
+     {
+         // Zaman ölçümü için Stopwatch başlatılıyor.
+         Stopwatch stopwatch = Stopwatch.StartNew();
 
-        // Hedef fonksiyon çalıştırılıyor.
-        targetFunction.Invoke();
+         // Hedef fonksiyon çalıştırılıyor.
+         targetFunction.Invoke();
 
-        // Stopwatch durduruluyor.
-        stopwatch.Stop();
+         // Stopwatch durduruluyor.
+         stopwatch.Stop();
 
-        // Çalışma süresi yazdırılıyor.
-        Console.WriteLine($"Çalışma Süresi: {stopwatch.ElapsedMilliseconds} ms");
+         // Çalışma süresi yazdırılıyor.
+         Console.WriteLine($"Çalışma Süresi: {stopwatch.ElapsedMilliseconds} ms");
 
-        // Bellek kullanımı ölçülüyor.
-        long memoryUsageBefore = GC.GetTotalMemory(true);
-        targetFunction.Invoke();
-        long memoryUsageAfter = GC.GetTotalMemory(false);
+         // Bellek kullanımı ölçülüyor.
+         long memoryUsageBefore = GC.GetTotalMemory(true);
+         targetFunction.Invoke();
+         long memoryUsageAfter = GC.GetTotalMemory(false);
 
-        // Kullanılan bellek miktarı hesaplanıyor.
-        long memoryUsed = memoryUsageAfter - memoryUsageBefore;
+         // Kullanılan bellek miktarı hesaplanıyor.
+         long memoryUsed = memoryUsageAfter - memoryUsageBefore;
 
-        // Bellek kullanımı yazdırılıyor.
-        Console.WriteLine($"Yaklaşık Bellek Kullanımı: {memoryUsed} bytes");
-    }
-}
-*/
+         // Bellek kullanımı yazdırılıyor.
+         Console.WriteLine($"Yaklaşık Bellek Kullanımı: {memoryUsed} bytes");
+     }
+ }
+ */
 
 }
