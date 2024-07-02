@@ -74,6 +74,12 @@ public class MyStack
     }
 }
 
+public class Test
+{
+    public int Id;
+    public string Name;
+}
+
 // Personel yapısı
 public class Personel
 {
